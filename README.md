@@ -15,14 +15,12 @@ To use this action in your workflow, add the following step:
 ```yaml
 steps:
   - name: Decrypt .env.vault
-    uses: your-username/your-repo@v1
+    uses: BluMintInc/decrypt-dotenv-vault@v1
     with:
       dotenv-key: ${{ secrets.DOTENV_KEY }}
 ```
 
-Make sure to replace `your-username/your-repo` with the actual path to your repository containing the action.
-
-You also need to add the `DOTENV_KEY` secret in your repository settings. This key should match the one used to encrypt the `.env.vault` file.
+You need to add the `DOTENV_KEY` secret in your repository settings. This key should match the one used to encrypt the `.env.vault` file.
 
 After running this action, the decrypted environment variables will be available in the `env-file` (default: `.env.ci`). You can then use these variables in your subsequent workflow steps.
 
@@ -43,7 +41,7 @@ jobs:
 
     steps:
       - name: Decrypt .env.vault
-        uses: your-username/your-repo@v1
+        uses: BluMintInc/decrypt-dotenv-vault@v1
         with:
           dotenv-key: ${{ secrets.DOTENV_KEY }}
 
