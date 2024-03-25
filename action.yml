@@ -66,7 +66,5 @@ runs:
       run: npm install dotenv-vault
       shell: bash
     - name: Decrypt .env.vault
-      run: npx dotenv-vault decrypt .env.vault > ${{ inputs.env-file }}
+      run: npx dotenv-vault decrypt ${{ inputs.dotenv-key }} > ${{ inputs.env-file }}
       shell: bash
-      env:
-        DOTENV_KEY: ${{ inputs.dotenv-key }}
