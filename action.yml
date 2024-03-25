@@ -1,0 +1,72 @@
+name: decrypt-dotenv-vault
+description: 'Decrypts a .env.vault file using dotenv-vault'
+branding:
+  icon: 'lock'
+  color: 'green'
+inputs:
+  dotenv-key:
+    description: 'The dotenv-vault encryption key'
+    required: true
+  env-file:
+    description: 'The name of the environment file to generate'
+    required: false
+    default: '.env.ci'
+  node-version:
+    description: 'The version of Node.js to use'
+    required: false
+    default: '20'
+  node-version-file:
+    description: 'The path to a file containing the version of Node.js to use'
+    required: false
+  architecture:
+    description: 'The architecture of Node.js to use (x86 or x64)'
+    required: false
+  check-latest:
+    description: 'Set to true to check for the latest available version of Node.js'
+    required: false
+  registry-url:
+    description: 'The base URL of the npm registry'
+    required: false
+  scope:
+    description: 'The scope of the npm registry'
+    required: false
+  token:
+    description: 'The token to use for authentication with the npm registry'
+    required: false
+  cache:
+    description: 'The path to the npm cache directory'
+    required: false
+  cache-dependency-path:
+    description: 'The path to the dependency file (e.g., package-lock.json)'
+    required: false
+  always-auth:
+    description: 'Set always-auth option in npmrc file'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.1
+      with:
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Setup Node.js
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: ${{ inputs.node-version }}
+        node-version-file: ${{ inputs.node-version-file }}
+        architecture: ${{ inputs.architecture }}
+        check-latest: ${{ inputs.check-latest }}
+        registry-url: ${{ inputs.registry-url }}
+        scope: ${{ inputs.scope }}
+        token: ${{ inputs.token }}
+        cache: ${{ inputs.cache }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+    - name: Install dotenv-vault
+      run: npm install dotenv-vault
+      shell: bash
+    - name: Decrypt .env.vault
+      run: npx dotenv-vault decrypt .env.vault > ${{ inputs.env-file }}
+      shell: bash
+      env:
+        DOTENV_KEY: ${{ inputs.dotenv-key }}
