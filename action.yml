@@ -33,12 +33,6 @@ inputs:
   token:
     description: 'The token to use for authentication with the npm registry'
     required: false
-  cache:
-    description: 'The path to the npm cache directory'
-    required: false
-  cache-dependency-path:
-    description: 'The path to the dependency file (e.g., package-lock.json)'
-    required: false
   always-auth:
     description: 'Set always-auth option in npmrc file'
     required: false
@@ -50,6 +44,7 @@ runs:
       with:
         fetch-depth: 0
         persist-credentials: false
+    
     - name: Setup Node.js
       uses: actions/setup-node@v4.0.2
       with:
@@ -60,11 +55,13 @@ runs:
         registry-url: ${{ inputs.registry-url }}
         scope: ${{ inputs.scope }}
         token: ${{ inputs.token }}
-        cache: ${{ inputs.cache }}
-        cache-dependency-path: ${{ inputs.cache-dependency-path }}
-    - name: Install dotenv-vault
-      run: npm install dotenv-vault
+        cache: 'npm'
+        cache-dependency-path: package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
       shell: bash
+   
     - name: Decrypt .env.vault
       run: npx dotenv-vault decrypt ${{ inputs.dotenv-key }} > ${{ inputs.env-file }}
       shell: bash
