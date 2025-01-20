@@ -59,8 +59,21 @@ runs:
         cache-dependency-path: package-lock.json
     
     - name: Install dependencies
-      run: npm ci
+      run: npm i --prefer-offline --no-audit
       shell: bash
+    - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install dependencies if needed
+        run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
    
     - name: Decrypt .env.vault
       run: npx dotenv-vault decrypt ${{ inputs.dotenv-key }} > ${{ inputs.env-file }}
