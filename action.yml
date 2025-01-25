@@ -39,6 +39,10 @@ inputs:
   fetch-depth:
     description: "actions/checkout fetch-depth"
     required: false
+   persist-credentials:
+    description: "actions/checkout fetch-depth"
+    required: false
+    default: true
 runs:
   using: 'composite'
   steps:
@@ -46,7 +50,7 @@ runs:
       uses: actions/checkout@v4.1.1
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
-        persist-credentials: false
+        persist-credentials: ${{ inputs.persist-credentials }}
     
     - name: Setup Node.js
       uses: actions/setup-node@v4.0.2
