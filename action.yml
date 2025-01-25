@@ -39,7 +39,7 @@ inputs:
   fetch-depth:
     description: "actions/checkout fetch-depth"
     required: false
-   persist-credentials:
+  persist-credentials:
     description: "actions/checkout fetch-depth"
     required: false
     default: true
