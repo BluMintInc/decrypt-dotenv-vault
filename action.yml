@@ -78,7 +78,11 @@ runs:
     - name: Install dependencies
       run: npm i --prefer-offline --no-audit
       shell: bash
-   
+
+    - name: Set DOTENV_KEY in environment
+      run: echo "DOTENV_KEY=${{ inputs.dotenv-key }}" >> $GITHUB_ENV
+      shell: bash
+
     - name: Decrypt .env.vault
       run: npx dotenv-vault decrypt ${{ inputs.dotenv-key }} > ${{ inputs.env-file }}
       shell: bash
