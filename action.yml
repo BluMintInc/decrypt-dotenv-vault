@@ -79,10 +79,6 @@ runs:
       run: npm i --prefer-offline --no-audit
       shell: bash
 
-    - name: Write DOTENV_KEY to .env.key file
-      run: echo "${{ inputs.dotenv-key }}" > .env.key
-      shell: bash
-
     - name: Decrypt .env.vault
       run: npx dotenv-vault decrypt ${{ inputs.dotenv-key }} > ${{ inputs.env-file }}
       shell: bash
