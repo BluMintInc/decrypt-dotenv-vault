@@ -45,7 +45,7 @@ inputs:
     default: true
   checkout-token:
     description: 'The token for the checkout'
-    required: true
+    required: false
 runs:
   using: 'composite'
   steps:
