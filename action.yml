@@ -43,6 +43,9 @@ inputs:
     description: "actions/checkout fetch-depth"
     required: false
     default: true
+  checkout-token:
+    description: 'The token for the checkout'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -51,6 +54,7 @@ runs:
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
         persist-credentials: ${{ inputs.persist-credentials }}
+        token: ${{ inputs.checkout-token }}
     
     - name: Setup Node.js
       uses: useblacksmith/setup-node@v5
