@@ -40,9 +40,9 @@ inputs:
     description: "actions/checkout fetch-depth"
     required: false
   persist-credentials:
-    description: "actions/checkout fetch-depth"
+    description: "Whether to configure the token or SSH key with the local git config"
     required: false
-    default: true
+    default: 'true'
   checkout-token:
     description: 'The token for the checkout'
     required: false
@@ -54,7 +54,7 @@ runs:
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
         persist-credentials: ${{ inputs.persist-credentials }}
-        token: ${{ inputs.checkout-token }}
+        token: ${{ inputs.checkout-token || github.token }}
     
     - name: Setup Node.js
       uses: useblacksmith/setup-node@v5
